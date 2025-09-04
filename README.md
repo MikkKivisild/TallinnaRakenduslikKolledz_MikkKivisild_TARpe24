@@ -1,2 +1,1 @@
-# TallinnaRakenduslikKolledz_MikkKivisild
-Mikk Kivisild
+# TallinnaRakenduslikKolledz
