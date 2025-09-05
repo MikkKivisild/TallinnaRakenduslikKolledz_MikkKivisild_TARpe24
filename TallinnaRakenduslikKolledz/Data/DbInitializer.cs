@@ -20,7 +20,7 @@ namespace TallinnaRakenduslikKolledz.Data
                     LastName = "AAA",
                     EnrollmentDate = DateTime.Now,
                     Gender = "M",
-                    Age = 21
+                    Age = 21,
                     EnrollmentStatus = "A"
                 }
             };
