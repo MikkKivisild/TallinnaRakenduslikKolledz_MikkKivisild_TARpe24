@@ -12,8 +12,8 @@ using TallinnaRakenduslikKolledz.Data;
 namespace TallinnaRakenduslikKolledz.Migrations
 {
     [DbContext(typeof(SchoolContext))]
-    [Migration("20250905083240_AAAA")]
-    partial class AAAA
+    [Migration("20250909222216_a")]
+    partial class a
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
