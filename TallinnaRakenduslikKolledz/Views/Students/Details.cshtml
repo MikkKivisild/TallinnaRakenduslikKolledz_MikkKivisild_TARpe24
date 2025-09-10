@@ -1,0 +1,36 @@
+﻿@model TallinnaRakenduslikKolledz.Models.Student
+
+@{
+	ViewData["Title"] = "Student Deatils";
+}
+
+<h1>Details</h1>
+
+<h3>Student Details</h3>
+<div>
+	<h3>Student</h3>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+        @Html.DisplayNameFor(Model => Model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(Model => Model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+        @Html.DisplayNameFor(Model => Model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(Model => Model.FirstName)
+        </dd>
+
+        <dt class="col-sm-2">
+        @Html.DisplayNameFor(Model => Model.EnrollmentDate)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(Model => Model.EnrollmentDate)
+        </dd>
+    </dl>
+</div>
+<a asp-action="Index" class="btn btn-primary">Back</a>
+
