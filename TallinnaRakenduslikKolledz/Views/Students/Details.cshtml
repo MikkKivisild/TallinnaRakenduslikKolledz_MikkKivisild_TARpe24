@@ -1,35 +1,70 @@
 ﻿@model TallinnaRakenduslikKolledz.Models.Student
 
 @{
-	ViewData["Title"] = "Student Deatils";
+    ViewData["Title"] = "Student Deatils";
 }
 
 <h1>Details</h1>
 
 <h3>Student Details</h3>
 <div>
-	<h3>Student</h3>
+    <h3>Student</h3>
     <hr />
     <dl class="row">
         <dt class="col-sm-2">
-        @Html.DisplayNameFor(Model => Model.LastName)
+            @Html.DisplayNameFor(Model => Model.LastName)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(Model => Model.LastName)
         </dd>
         <dt class="col-sm-2">
-        @Html.DisplayNameFor(Model => Model.FirstName)
+            @Html.DisplayNameFor(Model => Model.FirstName)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(Model => Model.FirstName)
         </dd>
-
         <dt class="col-sm-2">
-        @Html.DisplayNameFor(Model => Model.EnrollmentDate)
+            @Html.DisplayNameFor(Model => Model.EnrollmentDate)
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(Model => Model.EnrollmentDate)
         </dd>
+        @if (Model.Enrollments != null)
+        {
+            foreach (var courseEnrollment in Model.Enrollments)
+            {
+                <dl class="row">
+                    <dd class="col-sm-10">@(courseEnrollment)</dd>
+                </dl>
+            }
+        }
+        @if (Model.Gender != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Model => Model.Gender)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Model => Model.Gender)
+            </dd>
+        }
+        @if (Model.Age != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Model => Model.Age)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Model => Model.Age)
+            </dd>
+        }
+        @if (Model.Age != null)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(Model => Model.EnrollmentStatus)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(Model => Model.EnrollmentStatus)
+            </dd>
+        }
     </dl>
 </div>
 <a asp-action="Index" class="btn btn-primary">Back</a>

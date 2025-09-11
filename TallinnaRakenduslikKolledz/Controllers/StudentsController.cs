@@ -26,7 +26,7 @@ namespace TallinnaRakenduslikKolledz.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id, FirstName, LastName, EnrollmentDate, email")] Student student)
+        public async Task<IActionResult> Create([Bind("Id, FirstName, LastName, EnrollmentDate, Gender, Age, EnrollmentStatus")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -61,7 +61,19 @@ namespace TallinnaRakenduslikKolledz.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var student = await _context.Students.FirstOrDefaultAsync(x => x.Id == id);
 
-
+            if (student == null)
+            {
+                return NotFound();
+            }
+            return View(student);
+        }
     }
 }
