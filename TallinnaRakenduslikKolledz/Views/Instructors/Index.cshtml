@@ -1,43 +1,58 @@
-﻿@model IEnumerable<TallinnaRakenduslikKolledz.Models.Instructor>
+﻿@model TallinnaRakenduslikKolledz.Models.InstructorIndexData
 
 @{
-	ViewData["Title"] = "Õpetajad";
+    ViewData["Title"] = "Õpetajad";
 }
 <h1>Õpetajate loend:</h1>
 <p>
-	<a asp-action="Create">Sisesta Õpetaja</a>
-
+    <a asp-action="Create">Sisesta Õpetaja</a>
 </p>
 
 <<table class="table">
     <thead>
-    <tr>
-        <th>Perekonnanimi</th>
-        <th>Eesnimi</th>
-        <th>Töölevõtukuupäev</th>
-        <th>Kabinet</th>
-        <th>Kursused</th>
-        <th>Email</th>
-        <th>Telefoninumber</th>
-        <th>Aadress</th>
-        <th>Tööriistad</th>
-    </tr>
+        <tr>
+            <th>Perekonnanimi</th>
+            <th>Eesnimi</th>
+            <th>Töölevõtukuupäev</th>
+            <th>Kabinet</th>
+            <th>Kursused</th>
+            <th>Email</th>
+            <th>Telefoninumber</th>
+            <th>Aadress</th>
+            <th>Tööriistad</th>
+        </tr>
     </thead>
     <tbody>
         @foreach (var instructor in Model.Instructors)
         {
             string selectedRow="";
             if(instructor.ID ==(int?)ViewData["InstructorID"])
-			{
-				selectedRow="table-success";
-			}
+            {
+                selectedRow="table-success";
+            }
             <tr class="@selectedRow">
                 <td>@Html.DisplayFor(modelItem => instructor.LastName)</td>
                 <td>@Html.DisplayFor(modelItem => instructor.FirstName)</td>
                 <td>@Html.DisplayFor(modelItem => instructor.HireDate)</td>
-                <td>@Html.DisplayFor(modelItem => instructor.LastName)</td>
+                <td>
+                    @if (instructor.OfficeAssignment != null)
+                    {
+                        @instructor.OfficeAssignment.Location
+                    }
+                </td>
+                <td>
+                    @foreach (var course in instructor.CourseAssignments)
+                    {
+                        @course.Course.CourseId @: @course.Course.Title <br/>
+                    }
+                </td>
+                <td>@Html.DisplayFor(modelItem => instructor.Email)</td>
+                <td>
+                    <a asp-action="Edit" asp-all-route-id="@instructor.ID">Edit</a>
+                    <a asp-action="Details" asp-all-route-id="@instructor.ID">Details</a>
+                    <a asp-action="Delete" asp-all-route-id="@instructor.ID">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
-
 </table>

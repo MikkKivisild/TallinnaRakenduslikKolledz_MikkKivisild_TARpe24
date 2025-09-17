@@ -3,7 +3,7 @@
 namespace TallinnaRakenduslikKolledz.Models
 {
 	public class Instructor
-	{
+    {
 		[Key]
 		public int ID { get; set; }
 		/**/
