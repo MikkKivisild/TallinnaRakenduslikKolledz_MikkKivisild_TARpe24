@@ -34,10 +34,10 @@ namespace TallinnaRakenduslikKolledz.Models
 		/* lisa kolm omadust õpetajale, ise mõtled välja */
 
 		[Display(Name = "Email")]
-		public string Email { get; set; }
+		public string? Email { get; set; }
 		[Display(Name = "Telefoninumber")]
-		public int PhoneNumber { get; set; }
+		public int? PhoneNumber { get; set; }
 		[Display(Name = "Aadress")]
-		public string Address { get; set; }
+		public string? Address { get; set; }
 	}
 }
