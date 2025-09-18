@@ -22,5 +22,56 @@ namespace TallinnaRakenduslikKolledz.Controllers
 				.ToListAsync();
 			return View(vm);
 		}
-	}
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var instructor = new Instructor();
+            instructor.CourseAssignments = new List<CourseAssignment>();
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(Instructor instructor, string selectedCourses)
+        {
+            if (selectedCourses != null)
+            {
+                instructor.CourseAssignments = new List<CourseAssignment>();
+                foreach (var course in selectedCourses)
+                {
+                    var courseToAdd = new CourseAssignment
+                    {
+                        InstructorID = instructor.ID,
+                        CourseID = course
+                    };
+                    instructor.CourseAssignments.Add(courseToAdd);
+                }
+            }
+            ModelState.Remove("selectedCourses");
+            if (ModelState.IsValid)
+            {
+                _context.Add(instructor);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
+            }
+            return View(instructor);
+        }
+        private void PopulateAssignedCourseData(Instructor instructor)
+        {
+            var allCourse = _context.Courses; 
+
+            var instructorCourses = new HashSet<int>(instructor.CourseAssignments.Select(c => c.CourseID));
+            var vm = new List<AssignedCourseData>();
+            foreach (var course in allCourse)
+            {
+                vm.Add(new AssignedCourseData
+                {
+                    CourseID = course.CourseId,
+                    Title = course.Title,
+                    Assigned = instructorCourses.Contains(course.CourseId)
+                });
+            }
+            ViewData["Courses"] = vm;
+        }
+    }
 }
