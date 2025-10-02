@@ -1,0 +1,46 @@
+﻿@model IEnumerable<TallinnaRakenduslikKolledz.Models.Department>
+
+@{
+	ViewData["Title"] = "Osakonnad";
+}
+<h1>Osakondade loend:</h1>
+<p>
+	<a asp-action="Create">Sisesta Osakond</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>Nimi</th>
+			<th>Eelarve</th>
+			<th>Alguskuupäev</th>
+			<th>Administraator</th>
+			<th>Kursused</th>
+			<th>Maja</th>
+			<th>Linn</th>
+			<th>Maakond</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var department in Model)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => department.Name)
+				</td>
+				<td>@Html.DisplayFor(modelItem => department.Budget)</td>
+				<td>@Html.DisplayFor(modelItem => department.StartDate)</td>
+				<td>@Html.DisplayFor(modelItem => department.Administrator)</td>
+				<td>@Html.DisplayFor(modelItem => department.Courses)</td>
+				<td>@Html.DisplayFor(modelItem => department.Building)</td>
+				<td>@Html.DisplayFor(modelItem => department.City)</td>
+				<td>@Html.DisplayFor(modelItem => department.County)</td>
+
+				<td>
+					<a asp-action="Edit" asp-route-id="@department.DepartmentID">Muuda</a>
+					<a asp-action="Details" asp-route-id="@department.DepartmentID">Vaata</a>
+					<a asp-action="Delete" asp-route-id="@department.DepartmentID">Kustuda</a>
+				</td>
+			</tr>
+		}
+	</tbody>
+</table>
