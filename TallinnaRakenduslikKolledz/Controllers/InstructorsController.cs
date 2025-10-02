@@ -103,5 +103,39 @@ namespace TallinnaRakenduslikKolledz.Controllers
             if (instructor == null) {return NotFound();}
             return View(instructor);
         }
+        [HttpGet]
+        public IActionResult Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var instructor = _context.Instructors.Find(id);
+            if (instructor == null)
+            {
+                return NotFound();
+            }
+
+            return View(instructor);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Edit(int id, Instructor instructor)
+        {
+            if (id != instructor.ID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                _context.Update(instructor);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(instructor);
+        }
     }
 }
