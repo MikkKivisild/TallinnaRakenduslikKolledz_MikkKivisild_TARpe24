@@ -23,7 +23,7 @@ namespace TallinnaRakenduslikKolledz.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullNamr");
+            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName");
             return View();
         }
         [HttpPost]
