@@ -1,5 +1,5 @@
 ﻿@model TallinnaRakenduslikKolledz.Models.Course
-@if (ViewData["RequestedView"] == "Details")
+@if (ViewBag.action == "Details")
 {
     <h1 class="Course">@Model.Title</h1>
 }
@@ -44,16 +44,16 @@ else
             </dd>
         </dl>
 
-        @if (ViewData["RequestedView"] == "Details")
+        @if (ViewBag.action == "Details")
         {
             <a asp-action="index" class="btn btn-primary">back</a>
         }
         else
         {
-            <input asp-action="DeleteConfirmed"
+            <input asp-action="Delete"
                    asp-controller="Courses"
                    type="submit"
-                   class="btn btn-primary"
+                   class="btn btn-danger"
                    value="Delete" />
             <a asp-action="index" class="btn btn-primary">Cancel</a>
         }

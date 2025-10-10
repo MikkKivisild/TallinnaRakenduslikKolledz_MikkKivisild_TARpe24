@@ -23,15 +23,15 @@ namespace TallinnaRakenduslikKolledz.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
 		{
-			ViewBag["action"] = "Create";
+			ViewData["action"] = "Create";
 			ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName");
-            return View();
+            return View("Create");
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Name,Budget,StartDate,RowVersion,InstructorID,Building,City,County")] Department department)
+        public async Task<IActionResult> Create([Bind("DepartmentID,Name,Budget,StartDate,RowVersion,InstructorID,Building,City,County")] Department department)
         {
-			ViewBag["action"] = "Create";
+			ViewData["action"] = "Create";
 			if (ModelState.IsValid)
             {
                 _context.Add(department);
@@ -39,13 +39,13 @@ namespace TallinnaRakenduslikKolledz.Controllers
                 return RedirectToAction("Index");
             }
             ViewData["InstructorID"] = new SelectList(_context.Instructors, "Id", "FullName", department.InstructorID);
-            return View(department);
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-			ViewBag["action"] = "Delete";
+			ViewData["action"] = "Delete";
 			if (id == null)
             {
                 return NotFound();
@@ -55,21 +55,21 @@ namespace TallinnaRakenduslikKolledz.Controllers
             {
                 return NotFound();
             }
-            return View(department);
+            return View("DetailsDelete", department);
         }
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
 		{
-			ViewBag["action"] = "Delete";
+			ViewData["action"] = "Delete";
 			var department = await _context.Departments.FindAsync(id);
             _context.Departments.Remove(department);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Index");
+            return RedirectToAction(nameof(Index));
         }
         public async Task<IActionResult> Details(int? id)
 		{
-			ViewBag["action"] = "Details";
+			ViewData["action"] = "Details";
 			if (id == null)
             {
                 return NotFound();
@@ -80,13 +80,13 @@ namespace TallinnaRakenduslikKolledz.Controllers
             {
                 return NotFound();
             }
-            return View(department);
+            return View("DetailsDelete",department);
         }
 
         [HttpGet]
         public IActionResult Edit(int? id)
 		{
-			ViewBag["action"] = "Edit";
+			ViewData["action"] = "Edit";
 			if (id == null)
             {
                 return NotFound();
@@ -98,14 +98,14 @@ namespace TallinnaRakenduslikKolledz.Controllers
                 return NotFound();
             }
 
-            return View(department);
+            return View("Create",department);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Department department)
+        public IActionResult Edit([Bind("DepartmentID,Name,Budget,StartDate,RowVersion,InstructorID,Building,City,County")] Department department,int id)
         {
-			ViewBag["action"] = "Edit";
+            department.DepartmentID = id;
 			if (id != department.DepartmentID)
             {
                 return NotFound();
@@ -117,7 +117,7 @@ namespace TallinnaRakenduslikKolledz.Controllers
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            return View(department);
+            return RedirectToAction(nameof(Index));
         }
     }
 }
