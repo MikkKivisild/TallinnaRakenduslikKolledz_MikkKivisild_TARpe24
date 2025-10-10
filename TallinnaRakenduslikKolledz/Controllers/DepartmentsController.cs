@@ -22,15 +22,17 @@ namespace TallinnaRakenduslikKolledz.Controllers
         }
         [HttpGet]
         public async Task<IActionResult> Create()
-        {
-            ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName");
+		{
+			ViewBag["action"] = "Create";
+			ViewData["InstructorID"] = new SelectList(_context.Instructors, "ID", "FullName");
             return View();
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Name,Budget,StartDate,RowVersion,InstructorID,Building,City,County")] Department department)
         {
-            if (ModelState.IsValid)
+			ViewBag["action"] = "Create";
+			if (ModelState.IsValid)
             {
                 _context.Add(department);
                 await _context.SaveChangesAsync();
@@ -43,7 +45,8 @@ namespace TallinnaRakenduslikKolledz.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null)
+			ViewBag["action"] = "Delete";
+			if (id == null)
             {
                 return NotFound();
             }
@@ -57,15 +60,17 @@ namespace TallinnaRakenduslikKolledz.Controllers
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var department = await _context.Departments.FindAsync(id);
+		{
+			ViewBag["action"] = "Delete";
+			var department = await _context.Departments.FindAsync(id);
             _context.Departments.Remove(department);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
+		{
+			ViewBag["action"] = "Details";
+			if (id == null)
             {
                 return NotFound();
             }
@@ -80,8 +85,9 @@ namespace TallinnaRakenduslikKolledz.Controllers
 
         [HttpGet]
         public IActionResult Edit(int? id)
-        {
-            if (id == null)
+		{
+			ViewBag["action"] = "Edit";
+			if (id == null)
             {
                 return NotFound();
             }
@@ -99,7 +105,8 @@ namespace TallinnaRakenduslikKolledz.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit(int id, Department department)
         {
-            if (id != department.DepartmentID)
+			ViewBag["action"] = "Edit";
+			if (id != department.DepartmentID)
             {
                 return NotFound();
             }

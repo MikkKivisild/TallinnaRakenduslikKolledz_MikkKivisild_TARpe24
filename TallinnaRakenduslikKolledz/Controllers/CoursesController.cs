@@ -27,6 +27,7 @@ namespace TallinnaRakenduslikKolledz.Controllers
 		[HttpGet]
 		public async Task<IActionResult> Create()
 		{
+			ViewData["action"] = "Create";
 			PopulateDepartmentsDropDownList();
 			return View();
 		}
@@ -35,6 +36,8 @@ namespace TallinnaRakenduslikKolledz.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Create([Bind("CourseId,Title,Credits,DepartmentID")] Models.Course course)
 		{
+			ViewData["action"] = "Create";
+
 			if (ModelState.IsValid)
 			{
 				_context.Add(course);
@@ -56,6 +59,8 @@ namespace TallinnaRakenduslikKolledz.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> Edit([Bind("CourseId,Title,Credits,Enrollments,Department,DepartmentID,CourseAssignments")] Course course)
 		{
+			ViewData["action"] = "Edit";
+
 			if (ModelState.IsValid)
 			{
 				_context.Courses.Update(course);
@@ -65,5 +70,45 @@ namespace TallinnaRakenduslikKolledz.Controllers
 			return RedirectToAction(nameof(Index));
 		}
 
+		[HttpGet]
+		public async Task<IActionResult> Delete(int? id)
+		{
+			ViewBag["action"] = "Delete";
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+			if (course == null)
+			{
+				return NotFound();
+			}
+			return View(course);
+		}
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			ViewBag["action"] = "Delete";
+			var course = await _context.Courses.FindAsync(id);
+			_context.Courses.Remove(course);
+			await _context.SaveChangesAsync();
+			return RedirectToAction("Index");
+		}
+		public async Task<IActionResult> Details(int? id)
+		{
+			ViewData["action"] = "Details";
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId== id);
+
+			if (course == null)
+			{
+				return NotFound();
+			}
+			return View(course);
+		}
 	}
 }

@@ -1,7 +1,11 @@
 ﻿@model TallinnaRakenduslikKolledz.Models.Department
-@if (ViewData["RequestedView"] == "Create")
+@{
+	ViewData["Title"] = "Department";
+}
+
+@if (ViewBag.action == "Create")
 {
-<h1>Edit Department</h1>
+<h1>Add Department</h1>
 <hr />
 
 	<div class="row">
