@@ -1,0 +1,61 @@
+﻿@model TallinnaRakenduslikKolledz.Models.Course
+@if (ViewBag.action == "Details")
+{
+    <h1 class="Course">@Model.Title</h1>
+}
+else
+{
+    <h1 class="Course">Delete @Model.Title</h1>
+}
+<div class="Course">
+    <form method="post">
+        <h4>Kursus</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.CourseId)
+            </dt>
+            <dd class="col-sm-2">
+                @Html.DisplayFor(model => model.CourseId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-sm-2">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Credits)
+            </dt>
+            <dd class="col-sm-2">
+                @Html.DisplayFor(model => model.Credits)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Department)
+            </dt>
+            <dd class="col-sm-2">
+                @Html.DisplayFor(model => model.Department)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Enrollments)
+            </dt>
+            <dd class="col-sm-2">
+                @Html.DisplayFor(model => model.Enrollments)
+            </dd>
+        </dl>
+
+        @if (ViewBag.action == "Details")
+        {
+            <a asp-action="index" class="btn btn-primary">back</a>
+        }
+        else
+        {
+            <input asp-action="Delete"
+                   asp-controller="Courses"
+                   type="submit"
+                   class="btn btn-danger"
+                   value="Delete" />
+            <a asp-action="index" class="btn btn-primary">Cancel</a>
+        }
+    </form>
+</div>

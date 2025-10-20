@@ -25,5 +25,45 @@ namespace TallinnaRakenduslikKolledz.Controllers
 								   select d;
 			ViewBag.DepartmentID = new SelectList(departmentsQuery.AsNoTracking(), "DepartmentID", "Name", selectedDepartment);
 		}
+		public async Task<IActionResult> Details(int? id)
+		{
+			ViewData["action"] = "Details";
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+
+			if (course == null)
+			{
+				return NotFound();
+			}
+			return View("DetailsDelete", course);
+		}
+		[HttpGet]
+		public async Task<IActionResult> Delete(int? id)
+		{
+			ViewData["action"] = "Delete";
+			if (id == null)
+			{
+				return NotFound();
+			}
+			var course = await _context.Courses.FirstOrDefaultAsync(x => x.CourseId == id);
+			if (course == null)
+			{
+				return NotFound();
+			}
+			return View("DetailsDelete", course);
+		}
+		[HttpPost, ActionName("Delete")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> DeleteConfirmed(int id)
+		{
+			ViewData["action"] = "Delete";
+			var course = await _context.Courses.FindAsync(id);
+			_context.Courses.Remove(course);
+			await _context.SaveChangesAsync();
+			return RedirectToAction(nameof(Index), course);
+		}
 	}
 }
