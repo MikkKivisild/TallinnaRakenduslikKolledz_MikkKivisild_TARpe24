@@ -6,23 +6,23 @@ using TallinnaRakenduslikKolledz.Models;
 
 namespace TallinnaRakenduslikKolledz.Controllers
 {
-	public class InstructorsController : Controller
-	{
-		private readonly SchoolContext _context;
-		public InstructorsController(SchoolContext context)
-		{
-			_context = context;
-		}
+    public class InstructorsController : Controller
+    {
+        private readonly SchoolContext _context;
+        public InstructorsController(SchoolContext context)
+        {
+            _context = context;
+        }
 
-		public async Task<IActionResult> Index(int? id, int? coureId)
-		{
-			var vm = new InstructorIndexData();
-			vm.Instructors = await _context.Instructors
-				.Include(i => i.OfficeAssignment)
-				.Include(i => i.CourseAssignments)
-				.ToListAsync();
-			return View(vm);
-		}
+        public async Task<IActionResult> Index(int? id, int? coureId)
+        {
+            var vm = new InstructorIndexData();
+            vm.Instructors = await _context.Instructors
+                .Include(i => i.OfficeAssignment)
+                .Include(i => i.CourseAssignments)
+                .ToListAsync();
+            return View(vm);
+        }
 
         [HttpGet]
         public IActionResult Create()
@@ -68,7 +68,7 @@ namespace TallinnaRakenduslikKolledz.Controllers
             if (deletableInstructor == null) { return NotFound(); }
             return View(deletableInstructor);
         }
-        [HttpPost,ActionName("Delete")]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
@@ -81,7 +81,7 @@ namespace TallinnaRakenduslikKolledz.Controllers
 
         private void PopulateAssignedCourseData(Instructor instructor)
         {
-            var allCourse = _context.Courses; 
+            var allCourse = _context.Courses;
 
             var instructorCourses = new HashSet<int>(instructor.CourseAssignments.Select(c => c.CourseID));
             var vm = new List<AssignedCourseData>();
@@ -95,47 +95,6 @@ namespace TallinnaRakenduslikKolledz.Controllers
                 });
             }
             ViewData["Courses"] = vm;
-        }
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null) {return NotFound();}
-            var instructor = await _context.Instructors.FirstOrDefaultAsync(x => x.ID == id);
-            if (instructor == null) {return NotFound();}
-            return View(instructor);
-        }
-        [HttpGet]
-        public IActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var instructor = _context.Instructors.Find(id);
-            if (instructor == null)
-            {
-                return NotFound();
-            }
-
-            return View(instructor);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, Instructor instructor)
-        {
-            if (id != instructor.ID)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                _context.Update(instructor);
-                _context.SaveChanges();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(instructor);
         }
     }
 }
