@@ -20,5 +20,45 @@ namespace TallinnaRakenduslikKolledz.Controllers
             var schoolContext = _context.Departments.Include(d => d.Administrator);
             return View(await schoolContext.ToListAsync());
         }
+        public async Task<IActionResult> Details(int? id)
+        {
+            ViewData["action"] = "Details";
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var department = await _context.Departments.FirstOrDefaultAsync(x => x.DepartmentID == id);
+
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View("DetailsDelete", department);
+        }
+        [HttpGet]
+        public async Task<IActionResult> Delete(int? id)
+        {
+            ViewData["action"] = "Delete";
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var department = await _context.Departments.FirstOrDefaultAsync(x => x.DepartmentID == id);
+            if (department == null)
+            {
+                return NotFound();
+            }
+            return View("DetailsDelete", department);
+        }
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            ViewData["action"] = "Delete";
+            var department = await _context.Departments.FindAsync(id);
+            _context.Departments.Remove(department);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
