@@ -65,5 +65,55 @@ namespace TallinnaRakenduslikKolledz.Controllers
 			await _context.SaveChangesAsync();
 			return RedirectToAction(nameof(Index), course);
 		}
+		[HttpGet]
+		public async Task<IActionResult> Create()
+		{
+			ViewData["action"] = "Create";
+			PopulateDepartmentsDropDownList();
+			return View("CreateEdit");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Create([Bind("CourseId,Title,Credits,DepartmentID")] Course course)
+		{
+			if (ModelState.IsValid)
+			{
+				_context.Add(course);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+			PopulateDepartmentsDropDownList(course.DepartmentID);
+			return View(course);
+		}
+
+		[HttpGet]
+		public async Task<IActionResult> Edit(int id)
+		{
+			ViewData["action"] = "Edit";
+			var course = await _context.Courses.FirstOrDefaultAsync(d => d.CourseId == id);
+			if (course == null)
+			{
+				return NotFound();
+			}
+			return View("CreateEdit", course);
+		}
+		[HttpPost, ActionName("Edit")]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Edit([Bind("CourseId,Title,Credits,Enrollments,Department,DepartmentID,CourseAssignments")] Course course, int id)
+		{
+			course.CourseId = id;
+			if (id != course.CourseId)
+			{
+				return NotFound();
+			}
+			if (ModelState.IsValid)
+			{
+				_context.Update(course);
+				await _context.SaveChangesAsync();
+				return RedirectToAction(nameof(Index));
+			}
+			return RedirectToAction(nameof(Index));
+		}
 	}
 }
